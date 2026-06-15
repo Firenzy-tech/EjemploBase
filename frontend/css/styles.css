@@ -1,0 +1,124 @@
+/*
+ * Archivo: styles.css
+ * Propósito: Proporcionar estilos visuales para la aplicación de saludo,
+ *            asegurando una interfaz de usuario atractiva y responsiva.
+ */
+
+/* Reset global: Asegura que el padding y el border se incluyan en el ancho total */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* Estilos generales para el cuerpo de la página */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Fuente moderna y legible */
+    padding: 20px; /* Espacio de seguridad para pantallas pequeñas */
+    background-color: #f4f7f6; /* Color de fondo suave */
+    color: #333; /* Color de texto principal */
+    display: flex; /* Usa flexbox para centrar el contenido */
+    justify-content: center; /* Centra horizontalmente */
+    align-items: center; /* Centra verticalmente */
+    min-height: 100vh; /* Asegura que el cuerpo ocupe al menos el alto completo de la ventana */
+}
+
+/* Estilos para el contenedor principal de la aplicación */
+.container {
+    background-color: #ffffff; /* Fondo blanco para el contenedor */
+    padding: 30px; /* Espaciado interno */
+    border-radius: 10px; /* Bordes redondeados */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Sombra sutil para profundidad */
+    text-align: center; /* Centra el texto dentro del contenedor */
+    max-width: 500px; /* Ancho máximo para el contenedor */
+    width: 100%; /* Ocupa todo el ancho disponible hasta el max-width */
+}
+
+/* Estilos para el título de la aplicación */
+h1 {
+    color: #2c3e50; /* Color de título oscuro */
+    margin-bottom: 25px; /* Espacio debajo del título */
+    font-size: 2em; /* Tamaño de fuente del título */
+}
+
+/* Estilos para el campo de entrada de texto */
+#nombre {
+    width: 100%; /* Ahora funciona correctamente gracias al reset global */
+    padding: 12px 10px; /* Espaciado interno */
+    margin-bottom: 20px; /* Espacio debajo del campo */
+    border: 1px solid #ccc; /* Borde gris claro */
+    border-radius: 5px; /* Bordes redondeados */
+    font-size: 1em; /* Tamaño de fuente */
+}
+
+/* Estilos para el botón */
+button {
+    background-color: #3498db; /* Color de fondo azul */
+    color: white; /* Color de texto blanco */
+    padding: 12px 25px; /* Espaciado interno */
+    border: none; /* Sin borde */
+    border-radius: 5px; /* Bordes redondeados */
+    font-size: 1.1em; /* Tamaño de fuente */
+    cursor: pointer; /* Cambia el cursor a una mano al pasar por encima */
+    transition: background-color 0.3s ease; /* Transición suave para el color de fondo */
+    outline: none; /* Elimina el contorno al hacer clic */
+}
+
+/* Efecto hover para el botón */
+button:hover {
+    background-color: #2980b9; /* Azul más oscuro al pasar el ratón */
+}
+
+/* Efecto activo para el botón (cuando se presiona) */
+button:active {
+    background-color: #2471a3; /* Azul aún más oscuro al hacer clic */
+    transform: translateY(1px); /* Pequeño desplazamiento hacia abajo */
+}
+
+/* Estilos para el área de resultado */
+#resultado {
+    margin-top: 30px; /* Espacio encima del resultado */
+    padding: 15px; /* Espaciado interno */
+    background-color: #e8f6f3; /* Fondo verde claro para el resultado */
+    border: 1px solid #d1ede8; /* Borde verde claro */
+    border-radius: 5px; /* Bordes redondeados */
+    font-size: 1.2em; /* Tamaño de fuente más grande */
+    color: #21618c; /* Color de texto azul oscuro */
+    min-height: 20px; /* Altura mínima para asegurar visibilidad */
+    overflow-wrap: anywhere; /* Evita desbordes si el texto es una sola palabra muy larga */
+    line-height: 1.5; /* Mejora la lectura si el texto tiene varias líneas */
+}
+
+/*
+ * Diseño Responsivo
+ * Adaptación de la interfaz para diferentes tamaños de pantalla.
+ */
+
+/* Para pantallas más pequeñas (ej. móviles) */
+@media (max-width: 600px) {
+    body {
+        padding: 15px; /* Reduce el padding del cuerpo */
+    }
+
+    .container {
+        padding: 20px; /* Reduce el padding del contenedor */
+    }
+
+    h1 {
+        font-size: 1.8em; /* Reduce el tamaño del título */
+    }
+
+    button {
+        width: 100%; /* Botón ocupa todo el ancho en pantallas pequeñas */
+        padding: 15px; /* Aumenta el padding del botón para facilitar el toque */
+    }
+
+    #nombre {
+        width: 100%; /* Campo de entrada ocupa todo el ancho */
+    }
+
+    #resultado {
+        font-size: 1.1em; /* Reduce el tamaño de fuente del resultado */
+        padding: 10px; /* Reduce el padding del resultado */
+    }
+}

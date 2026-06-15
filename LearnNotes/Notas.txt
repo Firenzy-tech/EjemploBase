@@ -1,0 +1,5 @@
+Para crear los binarios en una carpeta de salida bin: javac -d bin backend\src\com\ejemplo\Program.java 
+
+Para poder ejecutar la salida de los binarios: java -cp bin backend.src.com.ejemplo.Program
+
+Borrar binarios: rm -r bin;
