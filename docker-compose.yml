@@ -1,0 +1,9 @@
+services:
+  gestor-gastos:
+    build: .
+    container_name: web-gestor-gastos
+    ports:
+      - "8080:80"
+    volumes:
+      - .:/usr/share/nginx/html
+    restart: always
