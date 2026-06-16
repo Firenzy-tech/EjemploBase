@@ -7,6 +7,9 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.net.InetSocketAddress;
 import java.net.URLDecoder;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
@@ -15,7 +18,12 @@ public class Program {
 
     public static void main(String[] args) throws IOException {
         HttpServer server = HttpServer.create(new InetSocketAddress(8080), 0);
+        
+        // Endpoint para la API
         server.createContext("/saludo", new SaludoHandler());
+        // Handler para archivos estáticos (wwwroot)
+        server.createContext("/", new StaticFileHandler());
+        
         server.setExecutor(null);
 
         System.out.println("Backend iniciado en http://localhost:8080");
@@ -67,6 +75,45 @@ public class Program {
             }
             return params;
         }
+    }
+
+    static class StaticFileHandler implements HttpHandler {
+        @Override
+        public void handle(HttpExchange exchange) throws IOException {
+            String path = exchange.getRequestURI().getPath();
+            
+            // Limpiar el path para evitar problemas con la raíz del sistema de archivos
+            // Si el path es "/" o "", usamos "index.html"
+            String normalizedPath = (path.equals("/") || path.isEmpty()) 
+                ? "index.html" 
+                : path.substring(1); 
+
+            // Buscamos el archivo en la carpeta local wwwroot
+            Path filePath = Paths.get("wwwroot", normalizedPath);
+
+            if (Files.exists(filePath) && !Files.isDirectory(filePath)) {
+                String contentType = getContentType(path);
+                exchange.getResponseHeaders().set("Content-Type", contentType);
+                exchange.sendResponseHeaders(200, Files.size(filePath));
+                try (OutputStream os = exchange.getResponseBody()) {
+                    Files.copy(filePath, os);
+                }
+            } else {
+                String response = "404 (Not Found): El archivo no existe en wwwroot";
+                exchange.sendResponseHeaders(404, response.length());
+                try (OutputStream os = exchange.getResponseBody()) {
+                    os.write(response.getBytes());
+                }
+            }
+        }
+
+        private String getContentType(String path) {
+            if (path.endsWith(".html")) return "text/html; charset=UTF-8";
+            if (path.endsWith(".css")) return "text/css";
+            if (path.endsWith(".js")) return "application/javascript";
+            return "text/plain";
+        }
+    }
 
         private static void sendResponse(HttpExchange exchange, int statusCode, String body) throws IOException {
             byte[] responseBytes = body.getBytes(StandardCharsets.UTF_8);
@@ -75,5 +122,4 @@ public class Program {
                 os.write(responseBytes);
             }
         }
-    }
 }

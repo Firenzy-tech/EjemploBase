@@ -4,7 +4,12 @@
  * @returns {Promise<string>}
  */
 async function fetchSaludo(nombre) {
-    const url = `http://localhost:8080/saludo?nombre=${encodeURIComponent(nombre)}`;
+    // En producción, cambia esta URL por la de tu servidor real (ej: https://mi-backend.onrender.com)
+    const API_BASE_URL = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1"
+        ? "http://localhost:8080"
+        : "https://tu-api-java-en-la-nube.com"; // Aquí irá la URL de tu backend real
+
+    const url = `${API_BASE_URL}/saludo?nombre=${encodeURIComponent(nombre)}`;
     const response = await fetch(url);
     if (!response.ok) throw new Error(`Error HTTP: ${response.status}`);
     return await response.text();
@@ -24,10 +29,16 @@ async function saludar() {
 
     try {
         resultadoDiv.textContent = "Cargando...";
-        resultadoDiv.textContent = await fetchSaludo(nombre);
+        const texto = await fetchSaludo(nombre);
+        
+        // Usamos innerHTML o textContent dependiendo de si queremos renderizar HTML
+        // En este caso, el backend devuelve texto plano, así que textContent es más seguro.
+        resultadoDiv.textContent = texto;
+        resultadoDiv.style.color = "#21618c"; // Restaurar color original en caso de éxito
     } catch (error) {
         console.error("Error en la comunicación:", error);
         resultadoDiv.textContent = "No se pudo conectar con el servidor. Asegúrate de que el backend esté activo.";
+        resultadoDiv.style.color = "red";
     }
 }
 
