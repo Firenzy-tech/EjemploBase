@@ -1,4 +1,4 @@
-package backend.src.com.ejemplo;
+package com.ejemplo;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
@@ -21,13 +21,12 @@ public class Program {
         
         // Endpoint para la API
         server.createContext("/saludo", new SaludoHandler());
-        // Handler para archivos estáticos (wwwroot)
+        // Handler para archivos estáticos
         server.createContext("/", new StaticFileHandler());
         
         server.setExecutor(null);
 
         System.out.println("Backend iniciado en http://localhost:8080");
-        System.out.println("Endpoint: GET /saludo?nombre=Juan");
         server.start();
     }
 
@@ -88,10 +87,12 @@ public class Program {
                 ? "index.html" 
                 : path.substring(1); 
 
-            // Buscamos el archivo en la carpeta local wwwroot
-            Path filePath = Paths.get("wwwroot", normalizedPath);
+            // Buscamos el archivo en la raíz del proyecto (donde se ejecuta el programa)
+            Path filePath = Paths.get(normalizedPath);
+            System.out.println("Buscando archivo en: " + filePath.toAbsolutePath());
 
             if (Files.exists(filePath) && !Files.isDirectory(filePath)) {
+                // Usamos normalizedPath para que getContentType reciba "index.html" 
                 String contentType = getContentType(normalizedPath);
                 exchange.getResponseHeaders().set("Content-Type", contentType);
                 exchange.sendResponseHeaders(200, Files.size(filePath));
@@ -99,7 +100,7 @@ public class Program {
                     Files.copy(filePath, os);
                 }
             } else {
-                String response = "404 (Not Found): El archivo no existe en wwwroot";
+                String response = "404 (Not Found): El archivo no existe en el directorio raiz";
                 exchange.sendResponseHeaders(404, response.length());
                 try (OutputStream os = exchange.getResponseBody()) {
                     os.write(response.getBytes());
