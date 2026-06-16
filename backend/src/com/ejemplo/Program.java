@@ -92,7 +92,7 @@ public class Program {
             Path filePath = Paths.get("wwwroot", normalizedPath);
 
             if (Files.exists(filePath) && !Files.isDirectory(filePath)) {
-                String contentType = getContentType(path);
+                String contentType = getContentType(normalizedPath);
                 exchange.getResponseHeaders().set("Content-Type", contentType);
                 exchange.sendResponseHeaders(200, Files.size(filePath));
                 try (OutputStream os = exchange.getResponseBody()) {
