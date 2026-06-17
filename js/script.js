@@ -4,12 +4,9 @@
  * @returns {Promise<string>}
  */
 async function fetchSaludo(nombre) {
-    // En producción, cambia esta URL por la de tu servidor real (ej: https://mi-backend.onrender.com)
-    const API_BASE_URL = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1"
-        ? "http://localhost:8080"
-        : "https://tu-api-java-en-la-nube.com"; // Aquí irá la URL de tu backend real
-
-    const url = `${API_BASE_URL}/saludo?nombre=${encodeURIComponent(nombre)}`;
+    // Al usar una ruta relativa, el navegador usará el mismo host y puerto 
+    // desde el que se cargó el archivo index.html de forma automática.
+    const url = `/saludo?nombre=${encodeURIComponent(nombre)}`;
     const response = await fetch(url);
     if (!response.ok) throw new Error(`Error HTTP: ${response.status}`);
     return await response.text();

@@ -1,9 +1,7 @@
 services:
-  gestor-gastos:
+  gastos-app:
     build: .
-    container_name: web-gestor-gastos
+    container_name: java-gastos-container
     ports:
-      - "8080:80"
-    volumes:
-      - .:/usr/share/nginx/html
+      - "8080:8080"
     restart: always

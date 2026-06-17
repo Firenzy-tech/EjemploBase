@@ -13,6 +13,7 @@ import java.nio.file.Paths;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.Executors;
 
 public class Program {
 
@@ -24,7 +25,8 @@ public class Program {
         // Handler para archivos estáticos
         server.createContext("/", new StaticFileHandler());
         
-        server.setExecutor(null);
+        // Permite manejar múltiples peticiones concurrentes
+        server.setExecutor(Executors.newCachedThreadPool());
 
         System.out.println("Backend iniciado en http://localhost:8080");
         server.start();
